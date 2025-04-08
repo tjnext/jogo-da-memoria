@@ -1,44 +1,199 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Jogo da Memória</title>
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
-  <div id="menu">
-    <img src="memorialogo.png" alt="Jogo da Memória" id="logo">
-    <button onclick="iniciar()">INICIAR</button>
-  </div>
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: radial-gradient(circle, #ab61ff 0%, #3a017a 100%);
+  color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  overflow: hidden;
+}
 
-  <div id="game-container">
-    <div id="config-container">
-      <div id="config-btn" onclick="toggleMenu()">⚙️</div>
-      <div id="menu-config">
-        <label><input type="checkbox" id="toggle-som" checked onchange="toggleSons()"> Sons</label>
-        <label><input type="checkbox" id="toggle-music" checked onchange="toggleMusica()"> Música</label>
-        <button onclick="reiniciarJogo()">🔄Reiniciar</button><br>
-        <button onclick="voltarMenu()">🚪Sair</button>
-      </div>
-    </div>
+#logo {
+  width: 500px;
+  margin-bottom: 10px;
+  animation: pulse 2s infinite;
+}
 
-    <img src="memorialogo.png" alt="Logo Pequena" id="logo-pequena">
+#logo-pequena {
+  width: 180px;
+  margin-bottom: 0px;
+}
 
-    <div class="placar">
-      <div style="color: blue;">Jogador 1: <span id="p1">0</span></div>
-      <div style="color: red;">Jogador 2: <span id="p2">0</span></div>
-    </div>
-    <div id="tabuleiro"></div>
-    <div id="resultado"></div>
-  </div>
+@keyframes pulse {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.05); opacity: 0.8; }
+}
 
-  <audio id="som-inicio" src="inicio.mp3"></audio>
-  <audio id="som-virar" src="virar.mp3"></audio>
-  <audio id="som-acerto" src="acerto.mp3"></audio>
-  <audio id="som-loop" src="loop.mp3" loop></audio>
-  <audio id="som-fim" src="fim.mp3"></audio>
+#menu {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 
-  <script src="script.js"></script>
-</body>
-</html>
+#menu button {
+  background-color: #6a1b9a;
+  color: white;
+  padding: 15px 30px;
+  font-size: 18px;
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  transition: all 0.3s ease;
+}
+
+#menu button:hover {
+  background-color: #8e24aa;
+  transform: scale(1.05);
+  box-shadow: 0 6px 12px rgba(0,0,0,0.3);
+}
+
+#game-container {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+}
+
+#tabuleiro {
+  display: grid;
+  grid-template-columns: repeat(10, 80px); /* 10 colunas */
+  gap: 10px;
+  margin-top: 20px;
+  justify-content: center;
+}
+
+.carta {
+  width: 80px;
+  height: 80px;
+  perspective: 600px;
+  cursor: pointer;
+}
+
+.inner {
+  width: 100%;
+  height: 100%;
+  transition: transform 0.6s;
+  transform-style: preserve-3d;
+  position: relative;
+}
+
+.carta.virada .inner {
+  transform: rotateY(180deg);
+}
+
+.frente, .verso {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 40px;
+}
+
+.frente {
+  background: white;
+  transform: rotateY(180deg);
+}
+
+.verso {
+  background-image: url('verso.jpg');
+  background-size: cover;
+}
+
+.placar {
+  display: flex;
+  justify-content: space-around;
+  font-size: 20px;
+  margin: 5px auto;
+  width: 100%;
+  max-width: 1000px;
+}
+
+.placar span {
+  margin-top: 0.5px;
+  font-weight: bold;
+  color: white; /* deixa o texto branco */
+  padding: 10px 20px;
+  border-radius: 10px;
+}
+
+.jogador1 {
+  background-color: #007BFF; /* azul */
+}
+
+.jogador2 {
+  background-color: #DC3545; /* vermelho */
+}
+
+
+#resultado {
+  margin-top: 20px;
+  font-size: 24px;
+  animation: fadeIn 1s ease-in-out;
+}
+
+#timer {
+  position: absolute;
+  top: 20px;
+  right: 30px;
+  font-size: 22px;
+  padding: 5px 15px;
+  border-radius: 5px;
+}
+
+#config-btn {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  font-size: 30px;
+  cursor: pointer;
+  z-index: 10000;
+  background-color: rgba(48, 3, 66, 0.2);
+  padding: 3px;
+  border-radius: 50%;
+  transition: background-color 0.3s;
+}
+
+#config-container {
+  position: fixed;
+  top: 75px;
+  left: 20px;
+  z-index: 1000;
+}
+
+#menu-config {
+  display: block;
+  background: rgba(66, 2, 109, 0.95);
+  padding: 10px;
+  border-radius: 15px;
+  box-shadow: 0 0 10px #000;
+}
+
+#menu-config label {
+  display: block;
+  margin: 8px 0;
+  font-size: 20px;
+}
+
+#menu-config button {
+  margin-top: 6px;
+  width: 100%;
+  padding: 6px;
+  font-size: 16px;
+  background-color: #fff;
+  color: #000;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.9); }
+  to { opacity: 1; transform: scale(1); }
+}
