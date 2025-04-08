@@ -1,0 +1,115 @@
+body {
+  background-color: #222;
+  color: white;
+  font-family: sans-serif;
+  text-align: center;
+  margin: 0;
+  padding: 0;
+}
+
+#tabuleiro {
+  display: grid;
+  grid-template-columns: repeat(4, 100px);
+  grid-gap: 10px;
+  justify-content: center;
+  margin-top: 100px;
+}
+
+.carta {
+  width: 100px;
+  height: 100px;
+  background-color: #555;
+  cursor: pointer;
+  border-radius: 10px;
+  background-size: cover;
+  background-position: center;
+}
+
+#placar {
+  position: absolute;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 20px;
+}
+
+#placar span {
+  margin: 0 10px;
+}
+
+.ativo {
+  font-weight: bold;
+  text-shadow: 0 0 5px white;
+}
+
+#mensagem-final {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 36px;
+  font-weight: bold;
+  display: none;
+  animation: aparecer 1s ease-out;
+}
+
+@keyframes aparecer {
+  from { opacity: 0; transform: scale(0.5) translate(-50%, -50%); }
+  to { opacity: 1; transform: scale(1) translate(-50%, -50%); }
+}
+
+#timer {
+  position: absolute;
+  top: 20px;
+  right: 30px;
+  font-size: 20px;
+}
+
+#config-btn {
+  position: absolute;
+  top: 20px;
+  left: 30px;
+  font-size: 28px;
+  cursor: pointer;
+  z-index: 10;
+}
+
+#menu-config {
+  display: none;
+  position: absolute;
+  top: 60px;
+  left: 30px;
+  background-color: rgba(0,0,0,0.9);
+  padding: 15px;
+  border: 2px solid white;
+  border-radius: 10px;
+  color: white;
+  text-align: left;
+  z-index: 20;
+  min-width: 200px;
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+}
+
+#menu-config h3 {
+  margin-top: 0;
+  color: #ccc;
+  font-size: 18px;
+}
+
+#menu-config label {
+  display: block;
+  margin: 8px 0;
+  font-size: 16px;
+}
+
+#menu-config button {
+  margin-top: 8px;
+  width: 100%;
+  padding: 8px;
+  font-size: 16px;
+  background-color: #fff;
+  color: #000;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
